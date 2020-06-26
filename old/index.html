@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>DNA da Voz Demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Latest compiled and minified Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="style.css">
+  </head>
+  <body>
+    <h1>DNA da Voz Demo</h1>
+    <p><small>por <a href="https://github.com/lucasalcs" target="_blank">Lucas Alcântara</a> e <a href="https://github.com/rvirgilli" target="_blank">Rafaello Virgilli</a></small></p>
+    <p>Praesent consectetur ligula quis efficitur congue. Nunc in nisl consequat, dictum eros non, scelerisque nibh. Maecenas condimentum libero augue, pulvinar finibus tortor ullamcorper at. Etiam sed ullamcorper dui. Suspendisse cursus consequat auctor. Proin rhoncus tristique tincidunt. Nunc ut metus massa. Praesent condimentum interdum tempus.</p>
+    <div id="email_div">
+        <form id="emailForm" action="javascript:void(0);">
+            <li>
+                <label for="mail">E-mail:</label>
+                <input type="email" id="mail" name="user_email">
+            </li>
+            <li>
+                <button id="sendEmailButton" type="button">Submit</button>
+            </li>
+        </form>
+    </div>
+    <div id="enrollment" style="display: none">
+        <p><strong>Você precisa fazer o cadastro inicial</strong></p>
+        <form id="emailForm2" action="javascript:void(0);">
+            <li>
+                <label for="name">Nome:</label>
+                <input type="text" id="name" name="user_name">
+            </li>
+            <li>
+                <label for="mail2">E-mail:</label>
+                <input type="email" id="mail2" name="user_email2" disabled="disabled">
+            </li>
+        </form>
+        <div id="controls">
+            <button id="recordButton">Record</button>
+            <button id="stopButton" disabled>Stop</button>
+        </div>
+        <div id="formats">Format: start recording to see sample rate</div>
+        <p><strong>Recordings:</strong></p>
+        <ol id="recordingsList"></ol>
+        <li>
+            <button id="sendEnrollment" type="button">Send audios</button>
+        </li>
+    </div>
+    <div id="controls2" style="display: none">
+        <button id="ctr_recordButton">Record</button>
+        <button id="ctr_pauseButton" disabled>Pause</button>
+        <button id="ctr_stopButton" disabled>Stop</button>
+    </div>
+    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+  	<script src="https://cdn.rawgit.com/mattdiamond/Recorderjs/08e7abd9/dist/recorder.js"></script>
+  	<script src="js/app.js"></script>
+  </body>
+</html>
