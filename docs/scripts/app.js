@@ -1,5 +1,13 @@
 //config constants
-const blob_url = "http://127.0.0.1:5000/audio"
+var context_options = {
+    sampleRate: '16000'
+}
+
+record_as_wav = false; //if 'false' it will use 'audio/ogg; codecs=opus'
+
+const enroll_url = "http://127.0.0.1:5000/enroll";
+const check_email_url = "http://127.0.0.1:5000/check_email"
+utterance_length = 10000; //in milliseconds
 
 
 //page index
@@ -49,8 +57,7 @@ if($('#index')[0]){
 
         var fd = new FormData(emailForm);
 
-        //fd.append("user_email","teste@teste");
-        xhr.open("POST","http://127.0.0.1:5000/email",true);
+        xhr.open("POST", check_email_url,true);
         xhr.send(fd);
     });
 }
@@ -71,6 +78,7 @@ if($('#first-time')[0]){
         var urlParams = new URLSearchParams(window.location.search);
         user_email = urlParams.get('email');
         $('input#user_email').val(user_email);
+        $('#timer').text(pad((utterance_length/1000).toFixed(2), 5))
 
         $('#modal-acesso').showMenu();
         $('#btn_authorize').on('click', function(){
@@ -89,30 +97,49 @@ if($('#first-time')[0]){
         analyser.fftSize = 1024;
         source.connect(analyser);
 
-        mediaRecorder = new MediaRecorder(dest.stream);
+        if (record_as_wav){
+            mediaRecorder = new Recorder(source,{numChannels:1});
+        } else {Recorder
+            mediaRecorder = new MediaRecorder(dest.stream, {
+                  mimeType : 'audio/webm;codecs=opus'
+            });
+
+            mediaRecorder.ondataavailable = function(evt) {
+             // push each chunk (blobs) in an array
+                console.log('ondataavailable');
+                chunks.push(evt.data);
+            };
+
+            mediaRecorder.onstop = function(evt) {
+                console.log('stop');
+                // Make blob out of our blobs, and open it.
+                blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+
+                upload_blob(blob)
+            };
+        }
+
         analyser.connect(dest);
 
-        mediaRecorder.ondataavailable = function(evt) {
-         // push each chunk (blobs) in an array
-            console.log('ondataavailable');
-            chunks.push(evt.data);
-        };
 
-        mediaRecorder.onstop = function(evt) {
-            console.log('stop');
-            // Make blob out of our blobs, and open it.
-            blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-        };
 
         $('.container #btn').on('click', function(){
             $(this).prop('disabled', true);
             $(this).prop("onclick", null).off("click");
-            mediaRecorder.start();
+            if (record_as_wav) {
+                mediaRecorder.record();
+            }
+            else {
+                mediaRecorder.start();
+            }
+
             start_timer();
             setTimeout(function(){
-               //mediaRecorder.requestData();
-               mediaRecorder.stop();
-            }, 3000);
+                mediaRecorder.stop();
+                if (record_as_wav) {
+                    mediaRecorder.exportWAV(upload_blob);
+                };
+            }, utterance_length);
         })
 
         initBinCanvas();
@@ -292,7 +319,7 @@ if($('#first-time')[0]){
 
     function start_timer(){
         // Set the date we're counting down to
-        var countMilis = 10000;
+        var countMilis = utterance_length;
 
         // Update the count down every 10 milliseconds
         var x = setInterval(function() {
@@ -313,8 +340,8 @@ if($('#first-time')[0]){
         return s;
     }
 
-    function upload_blob(){
-        var blob = chunks[0];
+    function upload_blob(blob){
+
         var xhr=new XMLHttpRequest();
         xhr.onload=function(e) {
             if(this.readyState === 4) {
@@ -322,11 +349,10 @@ if($('#first-time')[0]){
             }
         };
         var fd=new FormData();
-        fd.append("user_name", user_email)
-        fd.append("audio_data",blob, filename);
-        xhr.open(blob_url,true);
+        fd.append("user_email", user_email)
+        fd.append("audio_data",blob, "audio");
+        xhr.open("POST", enroll_url,true);
         xhr.send(fd);
-
     }
 }
 
