@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, viewport-fit=cover" />
+<title>StickyMobile BootStrap</title>
+<link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
+<link rel="stylesheet" type="text/css" href="styles/style.css">
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,500,500i,700,700i,900,900i|Source+Sans+Pro:300,300i,400,400i,600,600i,700,700i,900,900i&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="fonts/css/fontawesome-all.min.css">    
+<link rel="manifest" href="_manifest.json" data-pwa-version="set_in_manifest_and_pwa_js">
+<link rel="apple-touch-icon" sizes="180x180" href="app/icons/icon-192x192.png">
+</head>
+    
+<body class="theme-dark" data-background="none" data-highlight="red2">
+    
+<div id="preloader"><div class="spinner-border color-highlight" role="status"></div></div>
+    
+<div id="page">
+
+     <!-- header and footer bar go here-->
+    <div class="header header-fixed header-transparent header-logo-center">
+        <a href="index.html" class="header-title">DNA da Voz</a>
+        <!--<a href="#" class="back-button header-icon header-icon-1"><i class="fas fa-arrow-left"></i></a>-->
+        <a href="#" data-toggle-theme class="header-icon header-icon-4"><i class="fas fa-lightbulb"></i></a>
+    </div>
+
+    <div id="footer-bar" class="footer-bar-1">
+        <a href="home.html"><i class="fa fa-home"></i><span>Home</span></a>
+        <a href="demo.html" class="active-nav"><i class="fa fa-cog"></i><span>Demo</span></a>
+        <a href="research.html"><i class="fa fa-star"></i><span>Sobre</span></a>
+        <a href="about.html"><i class="fa fa-heart"></i><span>Quem somos</span></a>
+        <a href="contact.html"><i class="fa fa-search"></i><span>Contato</span></a>
+    </div>
+
+    <!--start of page content, add your stuff here-->
+    <div class="page-content header-clear-medium" id="index">
+
+        <div class="card card-style" data-card-height="500" data-src="images/pictures/18w.jpg">
+            <div class="card-center">
+                <h1 class="color-white text-center mb-3">Verifique seu e-mail</h1>
+                <p class="color-white text-center opacity-60 mt-n1 mb-0"></p>
+
+                <div class="card card-style opacity-80 mb-0">
+                    <div class="content mb-0 mt-3">
+                        <form id="emailForm" class="input-style input-style-2 input-required">
+                            <span class="color-highlight font-15">Email</span>
+                            <em class="font-10">(obrigatório)</em>
+                            <input class="form-control font-20" type="email" name="user_email" placeholder="" required>
+                        </form>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-center-s btn-m text-uppercase font-900 mt-4 bg-white color-black scale-box" id="sendEmailButton">Verificar</a>
+            </div>
+            <div class="card-bottom">
+                <p class="text-center color-white opacity-80 font-12"></p>
+            </div>
+            <div class="card-overlay bg-black opacity-50"></div>
+            <div class="card-overlay-infinite preload-img" data-src="img/spectrogram.jpg"></div>
+        </div>
+    </div>
+
+    <!--end of page content, off canvas elements here-->
+
+    
+</div>
+<script type="text/javascript" src="scripts/jquery.js"></script>
+<script type="text/javascript" src="scripts/bootstrap.min.js"></script>
+<script type="text/javascript" src="scripts/custom.js"></script>
+</body>

@@ -27,112 +27,121 @@
         <a href="#" data-toggle-theme class="header-icon header-icon-4"><i class="fas fa-lightbulb"></i></a>
     </div>
     <div id="footer-bar" class="footer-bar-1">
-        <a href="index.html"><i class="fa fa-home"></i><span>Demo</span></a>
-        <a href="research.html" class="active-nav"><i class="fa fa-star"></i><span>Pesquisa</span></a>
-        <a href="abouthtml"><i class="fa fa-heart"></i><span>Quem somos</span></a>
-        <a href="contact.html"><i class="fa fa-search"></i><span>Contato</span></a>
+        <a href="home.html"><i class="fa fa-home"></i><span>Home</span></a>
+        <a href="demo.html"><i class="fa fa-cog"></i><span>Demo</span></a>
+        <a href="research.html"><i class="fa fa-star"></i><span>Sobre</span></a>
+        <a href="about.html"><i class="fa fa-heart"></i><span>Quem Somos</span></a>
+        <a href="contact.html" class="active-nav"><i class="fa fa-search"></i><span>Contato</span></a>
     </div>
     
     <!--start of page content, add your stuff here-->
-    <div class="page-content pb-0 bg-theme">
+    <div class="page-content header-clear-medium">
 
-
-        <div class="cover-slider owl-carousel owl-dots-no-footer text-center">
-            <div data-card-height="cover" class="card bg-transparent">
-                <div class="card-center">
-                    <div class="content mt-n5">
-                        <img class="mb-3 mx-auto" width="320" src="images/undraw/1.svg">
-                        <h1 class="mb-0 font-30"> StickyMobile 3.0</h1>
-                        <p class="mt-n1 color-highlight font-12">Simply the Best Mobile Webkit on Envato</p>
-                        <p class="boxed-text-xl">
-                            Powered by Boostrap 4.4 with AJAX Transitions providing full
-                            PWA, RTL and Dark Mode integrations!
-                        </p>
-                    </div>
-                </div>
+        <div class="card card-style preload-img" data-src="images/pictures/8w.jpg" data-card-height="130">
+            <div class="card-center ml-3">
+                <h1 class="color-white mb-0">Dúvidas?</h1>
+                <p class="color-white mt-n1 mb-0">Fale Conosco</p>
             </div>
-
-            <div data-card-height="cover" class="card bg-transparent">
-                <div class="card-center">
-                    <div class="content mt-n5">
-                        <img class="mb-3 mx-auto" width="250" src="images/undraw/2.svg">
-                        <h1 class="mb-0 font-30"> Built for You</h1>
-                        <p class="mt-n1 color-highlight font-12">We listen to all your Feedback</p>
-                        <p class="boxed-text-xl">
-                            Sticky 3.0 is now powered by Bootstrap and is much more powerful than before. Everything has been rebuilt
-                            from the ground up adding features you requested!
-                        </p>
-                    </div>
-                </div>
+            <div class="card-center mr-3">
+                <a href="#" data-back-button class="btn btn-m float-right rounded-xl shadow-xl text-uppercase font-800 bg-highlight">Voltar para Home</a>
             </div>
+            <div class="card-overlay bg-black opacity-80"></div>
+        </div>
 
-            <div data-card-height="cover" class="card bg-transparent">
-                <div class="card-center">
-                    <div class="content mt-n5">
-                        <img class="mb-3 mb-3 mx-auto" width="280" src="images/undraw/3.svg">
-                        <h1 class="mb-0 font-30"> Easy to Use</h1>
-                        <p class="mt-n1 color-highlight font-12">Bootstrap Based Code. For Everyone</p>
-                        <p class="boxed-text-xl">
-                            Beside the incredibly detailed documentation provided with our item, you can always use any feature from Bootstrap
-                            and follow their Knowledgebase too
-                        </p>
-                    </div>
-                </div>
-            </div>
+        <div class="formValidationError bg-red2-dark content rounded-sm shadow-xl" id="contactNameFieldError">
+            <p class="text-center text-uppercase p-2 color-white font-900 ">Name is required!</p>
+        </div>
+        <div class="formValidationError bg-red2-dark content rounded-sm shadow-xl" id="contactEmailFieldError">
+            <p class="text-center text-uppercase p-2 color-white font-900">Mail address required!</p>
+        </div>
+        <div class="formValidationError bg-red2-dark content rounded-sm shadow-xl" id="contactEmailFieldError2">
+            <p class="text-center text-uppercase p-2 color-white font-900">Mail address must be valid!</p>
+        </div>
+        <div class="formValidationError bg-red2-dark content rounded-sm shadow-xl" id="contactMessageTextareaError">
+            <p class="text-center text-uppercase p-2 color-white font-900">Message field is empty!</p>
+        </div>
 
-            <div data-card-height="cover" class="card bg-transparent">
-                <div class="card-center text-center">
-                    <div class="content mt-n5">
-                        <img class="mb-3 mx-auto" width="275" src="images/undraw/5.svg">
-                        <h1 class="mb-0 font-28"> Performance Monster</h1>
-                        <p class="mt-n1 color-highlight font-12">It's Mobile. So it's super, super fast! Really!</p>
-                        <p class="boxed-text-xl">
-                            Unlike our competitors, we test our products on over 50 live, actual devices. Not emulators. We test in
-                            real world conditions in 3G & LTE for maximum performance.
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <div data-card-height="cover" class="card bg-transparent">
-                <div class="card-center">
-                    <div class="content mt-n5">
-                        <img class="mb-3 mx-auto" width="320" src="images/undraw/4.svg">
-                        <h1 class="mb-0 font-28"> Fingertip Features</h1>
-                        <p class="mt-n1 color-highlight font-12">Everything is built for your Mobile</p>
-                        <p class="boxed-text-xl">
-                            Following strict guideliness for your fingertips to enjoy ever second of tapping through
-                            the features StickyMobile has to offer. Everything is pixel perfect built.
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div data-card-height="cover" class="card bg-transparent">
-                <div class="card-center">
-                    <div class="content mt-n5">
-                        <img class="mb-3 mx-auto" width="285" src="images/undraw/6.svg">
-                        <h1 class="mb-0 font-28"> And much more!</h1>
-                        <p class="mt-n1 color-highlight font-12">All packed together with hundreds of features.</p>
-                        <p class="boxed-text-xl">
-                            Sticky is not just your average template.
-                            We use Bootstrap to bring you the best product possible.
-                        </p>
-                    </div>
-                </div>
+        <div class="formSuccessMessageWrap card card-style">
+            <div class="shadow-l rounded-m bg-gradient-green1 mr-n1 ml-n1 mb-n1 ">
+                <h1 class="color-white text-center pt-4"><i class="fa fa-check-circle fa-3x shadow-s scale-box rounded-circle"></i></h1>
+                <h2 class="color-white bold text-center pt-3">Message Sent</h2>
+                <p class="color-white pb-4 text-center mt-n2 mb-0">We'll get back to you shortly.</p>
             </div>
         </div>
-        <div class="cover-button-bottom">
-            <div class="row mb-0">
-                <div class="col-4 pl-0">
-                    <a href="#" data-back-button class="btn btn-m rounded-l btn-full color-highlight border-highlight font-900 text button-m">DEMO</a>
-                </div>
-                <div class="col-8 pr-0">
-                    <a href="#" data-menu="menu-signin" class="btn btn-m rounded-l btn-full bg-green1-dark font-900 text button-m">LOGIN ACCOUNT</a>
-                </div>
+
+        <div class="formSuccessMessageWrap card card-style">
+            <div class="content text-center">
+                <h2>Meanwhile, let's get social!</h2>
+                <p class="boxed-text-xl">
+                    Here are our social media platforms! Follow us for the latest updates or just say hello!
+                </p>
+                <a href="#" class="icon icon-xl shadow-xl rounded-xl bg-facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="icon icon-xl shadow-xl rounded-xl bg-instagram ml-3 mr-3"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="icon icon-xl shadow-xl rounded-xl bg-twitter"><i class="fab fa-twitter"></i></a>
             </div>
         </div>
-        <a href="#" class="cover-next color-gray2-dark">Next<i class="fa fa-angle-right mr-4 ml-3"></i></a>
-        <a href="#" class="cover-prev color-gray2-dark"><i class="fa fa-angle-left mr-4 ml-3"></i>Back</a>
+
+        <div class="card card-style contact-form">
+            <div class="content">
+                <form action="php/contact.php" method="post" class="contactForm" id="contactForm">
+                    <fieldset>
+                        <div class="form-field form-name">
+                            <label class="contactNameField color-theme" for="contactNameField">Name:<span>(required)</span></label>
+                            <input type="text" name="contactNameField" value="" class="contactField round-small requiredField" id="contactNameField" />
+                        </div>
+                        <div class="form-field form-email">
+                            <label class="contactEmailField color-theme" for="contactEmailField">Email:<span>(required)</span></label>
+                            <input type="text" name="contactEmailField" value="" class="contactField round-small requiredField requiredEmailField" id="contactEmailField" />
+                        </div>
+                        <div class="form-field form-text">
+                            <label class="contactMessageTextarea color-theme" for="contactMessageTextarea">Message:<span>(required)</span></label>
+                            <textarea name="contactMessageTextarea" class="contactTextarea round-small requiredField" id="contactMessageTextarea"></textarea>
+                        </div>
+                        <div class="form-button">
+                            <input type="submit" class="btn bg-highlight text-uppercase font-900 btn-m btn-full rounded-sm  shadow-xl contactSubmitButton" value="Send Message" data-formId="contactForm" />
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+
+        <div class="card card-style">
+            <div class="responsive-iframe">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3823.464072532854!2d-49.268868784294256!3d-16.603462588552848!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x935ef34bca719ee1%3A0x79210783139c2057!2sInstituto%20de%20Inform%C3%A1tica%20(INF)%20-%20UFG!5e0!3m2!1spt-BR!2sbr!4v1595543718585!5m2!1spt-BR!2sbr" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </div>
+
+
+
+        <div class="card card-style">
+            <div class="content mb-0">
+                <h3 class="font-700">Instituto de Informática (INF) - UFG</h3>
+                <p class="pb-0 mb-0">Alameda Palmeiras, Quadra D, Câmpus Samambaia</p>
+                <p class="pb-0">Fone: (62) 3521-1181 / Fax: (62) 3521-1182</p>
+
+                <div class="divider"></div>
+
+                <h3 class="font-700">UFG - Universidade Federal de Goiás</h3>
+                <p class="pb-0 mb-0">Avenida Esperança s/n, Câmpus Samambaia - Prédio da Reitoria.</p>
+                <p class="pb-0">CEP 74690-900 Goiânia - Goiás - Brasil.</p>
+
+            </div>
+        </div>
+
+        <div class="footer card card-style">
+            <a href="#" class="footer-title"><span class="color-highlight">StickyMobile</span></a>
+            <p class="footer-text"><span>Made with <i class="fa fa-heart color-highlight font-16 pl-2 pr-2"></i> by Enabled</span><br><br>Powered by the best Mobile Website Developer on Envato Market. Elite Quality. Elite Products.</p>
+            <div class="text-center mb-3">
+                <a href="#" class="icon icon-xs rounded-sm shadow-l mr-1 bg-facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="icon icon-xs rounded-sm shadow-l mr-1 bg-twitter"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="icon icon-xs rounded-sm shadow-l mr-1 bg-phone"><i class="fa fa-phone"></i></a>
+                <a href="#" data-menu="menu-share" class="icon icon-xs rounded-sm mr-1 shadow-l bg-red2-dark"><i class="fa fa-share-alt"></i></a>
+                <a href="#" class="back-to-top icon icon-xs rounded-sm shadow-l bg-dark1-light"><i class="fa fa-angle-up"></i></a>
+            </div>
+            <p class="footer-copyright">Copyright &copy; Enabled <span id="copyright-year">2017</span>. All Rights Reserved.</p>
+            <p class="footer-links"><a href="#" class="color-highlight">Privacy Policy</a> | <a href="#" class="color-highlight">Terms and Conditions</a> | <a href="#" class="back-to-top color-highlight"> Back to Top</a></p>
+            <div class="clear"></div>
+        </div>
 
     </div>
 
