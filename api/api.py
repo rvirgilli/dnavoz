@@ -33,5 +33,6 @@ def enrollment():
 wavs_path = './wavs'
 csv_path = './db.csv'
 
-db = ApiController(csv_path, wavs_path)
-app.run()
+if __name__ == "__main__":
+    db = ApiController(csv_path, wavs_path)
+    app.run()
