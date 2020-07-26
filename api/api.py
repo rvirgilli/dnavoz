@@ -10,6 +10,10 @@ app = flask.Flask(__name__)
 CORS(app)
 app.config["DEBUG"] = True
 
+@app.route("/")
+def hello():
+    return "Hello world!"
+
 @app.route('/test', methods=['GET'])
 def test():
     return "test"
