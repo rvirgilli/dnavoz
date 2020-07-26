@@ -30,7 +30,7 @@ def enroll():
 def enrollment():
     return True
 
-wavs_path = './wavs'
+wavs_path = './audios'
 csv_path = './db.csv'
 
 if __name__ == "__main__":
