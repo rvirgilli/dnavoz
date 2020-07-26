@@ -12,7 +12,7 @@ app.config["DEBUG"] = True
 
 @app.route("/")
 def hello():
-    return "Hello world!"
+    return "Hello world from api.py"
 
 @app.route('/test', methods=['GET'])
 def test():
