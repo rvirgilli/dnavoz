@@ -3,7 +3,7 @@ import flask
 from flask import request, jsonify
 from flask_cors import CORS
 
-from api_controller import ApiController
+#from api_controller import ApiController
 
 
 app = flask.Flask(__name__)
@@ -17,7 +17,7 @@ def test():
 @app.route('/email', methods=['POST'])
 def email():
     email = request.form['user_email']
-    j = jsonify({'email_bool': db.check_email(email)})
+    j = "" #jsonify({'email_bool': db.check_email(email)})
     return j
 
 @app.route('/enroll', methods=['POST', 'GET'])
@@ -34,5 +34,5 @@ wavs_path = './audios'
 csv_path = './db.csv'
 
 if __name__ == "__main__":
-    db = ApiController(csv_path, wavs_path)
+    #db = ApiController(csv_path, wavs_path)
     app.run()
