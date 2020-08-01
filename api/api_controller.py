@@ -7,29 +7,44 @@ class ApiController:
 
     accepted_types = {'audio/wav':'wav', 'audio/ogg':'ogg'}
 
-    def __init__(self, csv_path, wavs_path, mime_type='audio/wav'):
+    def __init__(self, users_csv, audios_csv, audios_folder, mime_type='audio/wav'):
         if mime_type not in self.accepted_types.keys():
             raise Exception('Mime type not suported: ' + mime_type)
 
-        self.wavs_path = wavs_path
         self.mime_type = mime_type
+        self.audios_folder = audios_folder
 
-        if os.path.exists(csv_path):
-            self.df = pd.read_csv(csv_path)
+        if os.path.exists(users_csv):
+            self.users = pd.read_csv(users_csv, index_col='email')
         else:
             dtypes = np.dtype([
-                ('name', str),
                 ('email', str),
-                ('file_path', str),
-                ('enrollment', bool),
-                ('self', bool)
+                ('name', str),
+                ('status', int),
+                ('n_audios', int)
             ])
 
-            data = np.empty(0, dtype=dtypes)
-            self.df = pd.DataFrame(data)
-            self.df.to_csv(csv_path, index=False)
+            users_df = np.empty(0, dtype=dtypes)
+            self.users = pd.DataFrame(users_df).set_index('email')
+            self.users.to_csv(users_csv)
 
-    def save_file(self, blob, email, enrollment, self_voice):
+        if os.path.exists(audios_csv):
+            self.audios = pd.read_csv(audios_csv)
+        else:
+            dtypes = np.dtype([
+                ('email', str),
+                ('file_name', str),
+                ('enrollment', bool),
+                ('owner_voice', bool)
+            ])
+
+            #todo identify device by cookie (to compare same user from different devices)
+
+            audios_df = np.empty(0, dtype=dtypes)
+            self.audios = pd.DataFrame(audios_df)
+            self.audios.to_csv(audios_csv, index=False)
+
+    def save_file(self, audio_data, email, enrollment, owner_voice):
 
         #define file name
         filename
@@ -51,8 +66,7 @@ class ApiController:
         return hashlib.md5(text.encode('utf-8')).hexdigest()[:16]
 
     def get_name_by_email(self, email):
-        users = self.df.groupby(['email']).first()
-        if email in users.index:
-            return users.loc[email]['name']
+        if email in self.users.index:
+            return self.users.loc[email]['name']
         else:
             return False

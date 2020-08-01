@@ -1,16 +1,18 @@
 # -*- coding: utf-8 -*-
 import flask
 from flask import request, jsonify
-from flask_cors import CORS
+from flask_cors import CORS, cross_origin
 
-#from api_controller import ApiController
+from api_controller import ApiController
 
 
 app = flask.Flask(__name__)
-CORS(app)
+CORS(app, origins='*', send_wildcard=True)
 app.config["DEBUG"] = True
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
+#@cross_origin()
 def hello():
     return "Hello world from api.py"
 
@@ -19,24 +21,27 @@ def test():
     return "test"
 
 @app.route('/email', methods=['POST'])
+@cross_origin()
 def email():
     email = request.form['user_email']
-    j = "" #jsonify({'email_bool': db.check_email(email)})
+    j = jsonify({'email_bool': ctl.get_name_by_email(email)})
     return j
 
 @app.route('/enroll', methods=['POST', 'GET'])
+#@cross_origin()
 def enroll():
-    audios = request
+    email = request.form['user_email']
     audio_data = request.files['audio_data']
     audio_data.save(audio_data.filename)
-    return False
+    return "False"
 
 def enrollment():
     return True
 
-wavs_path = './audios'
-csv_path = './db.csv'
+users_csv = './csvs/users.csv'
+audios_csv = './csvs/audios.csv'
+audios_folder = './audios'
 
 if __name__ == "__main__":
-    #db = ApiController(csv_path, wavs_path)
+    ctl = ApiController(users_csv=users_csv, audios_csv=audios_csv, audios_folder=audios_folder)
     app.run()
