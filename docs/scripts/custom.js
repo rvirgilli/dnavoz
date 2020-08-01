@@ -15,7 +15,14 @@ $(document).ready(function(){
         //ADD YOUR CUSTOM JAVASCRIPT CODES HERE! 
         //Do not put inside HTML files.
         //The init_template() function will be triggered when pages open.
-        
+        if($('#index')[0]){
+            send_hello();
+        }
+
+        if($('#first-time')[0]){
+            initBinCanvas();
+            on_load_page_first_time()
+        }
                
         //Generating Dynamic Styles to decrease CSS size and execute faster loading times. 
         var colorsArray = [
