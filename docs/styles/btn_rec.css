@@ -1,27 +1,3 @@
-@-webkit-keyframes time {
-  to {
-    top: 100%;
-    opacity: 1;
-  }
-}
-@-moz-keyframes time {
-  to {
-    top: 100%;
-    opacity: 1;
-  }
-}
-@-o-keyframes time {
-  to {
-    top: 100%;
-    opacity: 1;
-  }
-}
-@keyframes time {
-  to {
-    top: 100%;
-    opacity: 1;
-  }
-}
 @-webkit-keyframes stop {
   70% {
     border-radius: 6px;
@@ -104,7 +80,7 @@
 }
 body {
   overflow: hidden;
-  background: #000;
+  /*background: #000;*/
 }
 body .container {
   z-index: 1;
@@ -115,10 +91,14 @@ body .container {
   height: 170px;
   margin: -85px -85px;
 }
-body .container #btn {
+body .container #btn1,
+body .container #btn2,
+body .container #btn3 {
   display: none;
 }
-body .container #btn + label:before {
+body .container #btn1 + label:before,
+body .container #btn2 + label:before,
+body .container #btn3 + label:before {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -130,10 +110,12 @@ body .container #btn + label:before {
   -ms-transform: translate(-6px, -6px);
   transform: translate(-6px, -6px);
   border-radius: 50%;
-  border: 6px solid #fff;
+  border: 6px solid #343a40;
   cursor: pointer;
 }
-body .container #btn + label:after {
+body .container #btn1 + label:after,
+body .container #btn2 + label:after,
+body .container #btn3 + label:after{
   position: absolute;
   left: 50%;
   top: 50%;
@@ -145,7 +127,9 @@ body .container #btn + label:after {
   background: #e80415;
   cursor: pointer;
 }
-body .container #btn:checked + label:after {
+body .container #btn1:checked + label:after,
+body .container #btn2:checked + label:after,
+body .container #btn3:checked + label:after {
   -webkit-animation: stop 0.5s infinite cubic-bezier(0.4, -0.9, 0.9, 1);
   -moz-animation: stop 0.5s infinite cubic-bezier(0.4, -0.9, 0.9, 1);
   -o-animation: stop 0.5s infinite cubic-bezier(0.4, -0.9, 0.9, 1);
@@ -164,3 +148,12 @@ body #timer {
     top: 75%;
     z-index: 9;
 }
+
+.animateHue {
+  position: absolute;
+}
+canvas#freq {
+  position: absolute;
+  top: 0;
+}
+

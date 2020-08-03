@@ -27,13 +27,26 @@ def email():
     j = jsonify({'email_bool': ctl.get_name_by_email(email)})
     return j
 
+@app.route('/name', methods=['POST'])
+@cross_origin()
+def name():
+    email = request.form['user_email']
+    name = request.form['user_name']
+    j = jsonify({'name_bool': ctl.update_name(email, name)})
+    return j
+
+
 @app.route('/enroll', methods=['POST', 'GET'])
 #@cross_origin()
 def enroll():
     email = request.form['user_email']
     audio_data = request.files['audio_data']
+
+    #todo create method to validate and save audio
+
     audio_data.save(audio_data.filename)
-    return "False"
+    j = jsonify({'enroll_bool': True})
+    return j
 
 def enrollment():
     return True

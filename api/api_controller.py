@@ -13,6 +13,8 @@ class ApiController:
 
         self.mime_type = mime_type
         self.audios_folder = audios_folder
+        self.users_csv = users_csv
+        self.audios_csv = audios_csv
 
         if os.path.exists(users_csv):
             self.users = pd.read_csv(users_csv, index_col='email')
@@ -44,6 +46,10 @@ class ApiController:
             self.audios = pd.DataFrame(audios_df)
             self.audios.to_csv(audios_csv, index=False)
 
+    def save_users_csv(self):
+        self.users.to_csv(self.users_csv)
+
+
     def save_file(self, audio_data, email, enrollment, owner_voice):
 
         #define file name
@@ -58,15 +64,19 @@ class ApiController:
         #salvar o arquivo
         file_path = os.path.join()
 
-    def add_row(self, name, email):
-        return
-
+    def update_name(self, email, name):
+        if name and email in self.users.index:
+            self.users.loc[email, 'name'] = name
+            self.save_users_csv()
+            return True
+        else:
+            return False
 
     def hash_string(text):
         return hashlib.md5(text.encode('utf-8')).hexdigest()[:16]
 
     def get_name_by_email(self, email):
         if email in self.users.index:
-            return self.users.loc[email]['name']
+            return self.users.loc[email, 'name']
         else:
             return False

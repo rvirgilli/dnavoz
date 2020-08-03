@@ -15,15 +15,8 @@ $(document).ready(function(){
         //ADD YOUR CUSTOM JAVASCRIPT CODES HERE! 
         //Do not put inside HTML files.
         //The init_template() function will be triggered when pages open.
-        if($('#index')[0]){
-            send_hello();
-        }
 
-        if($('#first-time')[0]){
-            initBinCanvas();
-            on_load_page_first_time()
-        }
-               
+        custom_inits();
         //Generating Dynamic Styles to decrease CSS size and execute faster loading times. 
         var colorsArray = [
             //colors must be in HEX format.
@@ -371,6 +364,20 @@ $(document).ready(function(){
 
         //Owl Carousel Sliders
         setTimeout(function(){
+            $('.dnavoz-slider').owlCarousel({
+                loop:false,
+                margin:0,
+                nav:false,
+                lazyLoad:true,
+                items:1,
+                autoplay: false,
+                dots:false,
+                autoplayTimeout:0,
+                mouseDrag:false,
+                touchDrag:false,
+                pullDrag:false,
+                freeDrag:false,
+            });
             $('.user-slider').owlCarousel({loop:false, margin:20, nav:false, lazyLoad:true, items:1, autoplay: false, dots:false, autoplayTimeout:4000});		
             $('.single-slider').owlCarousel({loop:true, margin:20, nav:false, lazyLoad:true, items:1, autoplay: true, autoplayTimeout:4000});		
             $('.cover-slider').owlCarousel({loop:true, margin:0, nav:false, lazyLoad:true, items:1, autoplay: true, autoplayTimeout:6000});		

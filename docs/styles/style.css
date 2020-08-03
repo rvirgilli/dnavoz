@@ -5143,6 +5143,10 @@ code {
   background-image: url(../images/pictures/30.jpg);
 }
 
+.bg-rec {
+    background-image: url(../images/pictures/rec.jpg);
+}
+
 /*Demo Colors*/
 .demo-color {
   width: 100%;
@@ -5965,4 +5969,16 @@ html.lb-disable-scrolling {
 
 .owl-dots-no-footer .owl-dots {
   transform: translateY(-18px) !important;
+}
+
+.checkmark{
+  background-image: url(../images/icons/check4.png);
+  height: 81px;
+  width: 82px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -40px -41px;
+  z-index: 1;
+  visibility: hidden;
 }
