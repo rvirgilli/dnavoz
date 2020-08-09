@@ -7,7 +7,7 @@ from api_controller import ApiController
 
 
 app = flask.Flask(__name__)
-CORS(app)
+CORS(app, origins=['http://localhost:63342', 'https://rvirgilli.github.io'])
 app.config["DEBUG"] = True
 #app.config['CORS_HEADERS'] = 'Content-Type'
 
