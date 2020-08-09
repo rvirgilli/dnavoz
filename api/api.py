@@ -7,9 +7,9 @@ from api_controller import ApiController
 
 
 app = flask.Flask(__name__)
-CORS(app, origins='*', send_wildcard=True)
+CORS(app)
 app.config["DEBUG"] = True
-app.config['CORS_HEADERS'] = 'Content-Type'
+#app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route("/")
 #@cross_origin()
@@ -21,7 +21,7 @@ def test():
     return "test"
 
 @app.route('/email', methods=['POST'])
-@cross_origin()
+#@cross_origin()
 def email():
     email = request.form['user_email']
     j = jsonify({'email_bool': ctl.get_name_by_email(email)})
