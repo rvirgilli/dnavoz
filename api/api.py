@@ -9,7 +9,13 @@ from api_controller import ApiController
 app = flask.Flask(__name__)
 CORS(app, origins=['http://localhost:63342', 'https://rvirgilli.github.io'])
 app.config["DEBUG"] = True
-#app.config['CORS_HEADERS'] = 'Content-Type'
+app.config['CORS_HEADERS'] = 'Content-Type'
+
+@app.after_request
+def after_request_func(response):
+    response.headers['Access-Control-Allow-Origin'] = '*'
+    print("after_request is running!")
+    return response
 
 @app.route("/")
 #@cross_origin()
