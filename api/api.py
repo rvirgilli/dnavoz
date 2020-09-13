@@ -61,6 +61,7 @@ users_csv = './csvs/users.csv'
 audios_csv = './csvs/audios.csv'
 audios_folder = './audios'
 
+ctl = ApiController(users_csv=users_csv, audios_csv=audios_csv, audios_folder=audios_folder)
+
 if __name__ == "__main__":
-    ctl = ApiController(users_csv=users_csv, audios_csv=audios_csv, audios_folder=audios_folder)
     app.run()
