@@ -29,6 +29,7 @@ def test():
 @app.route('/email', methods=['POST'])
 #@cross_origin()
 def email():
+    global ctl
     email = request.form['user_email']
     j = jsonify({'email_bool': ctl.get_name_by_email(email)})
     return j
