@@ -2,9 +2,7 @@
 import flask
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
-
-from api_controller import ApiController
-
+from tasks import get_name_by_email, update_name
 
 app = flask.Flask(__name__)
 CORS(app, origins=['http://localhost:63342', 'https://rvirgilli.github.io'])
@@ -29,9 +27,8 @@ def test():
 @app.route('/email', methods=['POST'])
 #@cross_origin()
 def email():
-    global ctl
     email = request.form['user_email']
-    j = jsonify({'email_bool': ctl.get_name_by_email(email)})
+    j = jsonify({'email_bool': get_name_by_email(email)})
     return j
 
 @app.route('/name', methods=['POST'])
@@ -39,7 +36,7 @@ def email():
 def name():
     email = request.form['user_email']
     name = request.form['user_name']
-    j = jsonify({'name_bool': ctl.update_name(email, name)})
+    j = jsonify({'name_bool': update_name(email, name)})
     return j
 
 
@@ -57,12 +54,6 @@ def enroll():
 
 def enrollment():
     return True
-
-users_csv = './csvs/users.csv'
-audios_csv = './csvs/audios.csv'
-audios_folder = './audios'
-
-ctl = ApiController(users_csv=users_csv, audios_csv=audios_csv, audios_folder=audios_folder)
 
 if __name__ == "__main__":
     app.run()
