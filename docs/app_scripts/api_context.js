@@ -2,8 +2,8 @@ class API_Context{
     constructor(api_url) {
         this.api_url = api_url;
         this.enroll_url = this.api_url + '/enroll'
-        this.check_email_url = this.api_url + "/email"
-        this.name_url = this.api_url + "/name"
+        this.check_user_url = this.api_url + "/check_user"
+        this.add_user_url = this.api_url + "/add_user"
         this.xhr = new XMLHttpRequest();
         this.xhr.responseType = 'json'
         this.xhr.onerror = function() { // only triggers if the request couldn't be made at all
@@ -14,7 +14,7 @@ class API_Context{
     check_user(user_email, success_callback, error_callback){
         this.xhr.onload = function() {
             if (this.readyState == 4 && this.status == 200){
-                var resp = this.response["email_bool"];
+                var resp = this.response;
                 if (resp){
                     success_callback(resp);
                 } else{
@@ -25,7 +25,7 @@ class API_Context{
 
         var fd = new FormData();
         fd.append("user_email", user_email)
-        this.xhr.open("POST", this.check_email_url,true);
+        this.xhr.open("POST", this.check_user_url,true);
         this.xhr.send(fd);
     }
 
@@ -44,11 +44,11 @@ class API_Context{
         var fd = new FormData();
         fd.append("user_email", user_email)
         fd.append("user_name", user_name)
-        this.xhr.open("POST", this.name_url,true);
+        this.xhr.open("POST", this.add_user_url,true);
         this.xhr.send(fd);
     }
 
-    upload_blob(user_email, blob, success_callback, error_callback){
+    upload_blob(user_email, blob, rec_id, success_callback, error_callback){
         this.xhr.onload = function() {
             if (this.readyState == 4 && this.status == 200){
                 var resp = this.response["enroll_bool"];
@@ -60,8 +60,20 @@ class API_Context{
             }
         };
 
+        var audio_content;
+
+        if (rec_id == 1 || rec_id == 2 || rec_id == 3)
+            audio_content = "speech";
+        else if (rec_id == 4)
+            audio_content = "keyword";
+        else if (rec_id == 5)
+            audio_content = "noise";
+        else
+            console.log('update_blob rec_id error')
+
         var fd=new FormData();
-        fd.append("user_email", user_email)
+        fd.append("user_email", user_email);
+        fd.append("audio_content", audio_content);
         fd.append("audio_data",blob, "audio");
         this.xhr.open("POST", this.enroll_url,true);
         this.xhr.send(fd);

@@ -2163,7 +2163,7 @@ img.mx-auto {
   animation: infiniteBG 600s;
   animation-iteration-count: infinite;
   animation-timing-function: linear;
-  background-image: url(images/mountain.jpg);
+  /*background-image: url(images/mountain.jpg);*/
   background-size: cover;
   background-repeat: repeat;
   background-position: left bottom;
@@ -5981,4 +5981,9 @@ html.lb-disable-scrolling {
   margin: -40px -41px;
   z-index: 1;
   visibility: hidden;
+}
+
+.disableddiv {
+    pointer-events: none;
+    opacity: 0.4;
 }

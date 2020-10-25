@@ -93,12 +93,16 @@ body .container {
 }
 body .container #btn1,
 body .container #btn2,
-body .container #btn3 {
+body .container #btn3,
+body .container #btn4,
+body .container #btn5 {
   display: none;
 }
 body .container #btn1 + label:before,
 body .container #btn2 + label:before,
-body .container #btn3 + label:before {
+body .container #btn3 + label:before,
+body .container #btn4 + label:before,
+body .container #btn5 + label:before{
   position: absolute;
   left: 50%;
   top: 50%;
@@ -115,7 +119,9 @@ body .container #btn3 + label:before {
 }
 body .container #btn1 + label:after,
 body .container #btn2 + label:after,
-body .container #btn3 + label:after{
+body .container #btn3 + label:after,
+body .container #btn4 + label:after,
+body .container #btn5 + label:after{
   position: absolute;
   left: 50%;
   top: 50%;
@@ -129,7 +135,9 @@ body .container #btn3 + label:after{
 }
 body .container #btn1:checked + label:after,
 body .container #btn2:checked + label:after,
-body .container #btn3:checked + label:after {
+body .container #btn3:checked + label:after,
+body .container #btn4:checked + label:after,
+body .container #btn5:checked + label:after{
   -webkit-animation: stop 0.5s infinite cubic-bezier(0.4, -0.9, 0.9, 1);
   -moz-animation: stop 0.5s infinite cubic-bezier(0.4, -0.9, 0.9, 1);
   -o-animation: stop 0.5s infinite cubic-bezier(0.4, -0.9, 0.9, 1);

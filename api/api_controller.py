@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import hashlib
+import uuid
 import os
 
 class ApiController:
@@ -36,6 +37,7 @@ class ApiController:
             dtypes = np.dtype([
                 ('email', str),
                 ('file_name', str),
+                ('content', str),
                 ('enrollment', bool),
                 ('owner_voice', bool)
             ])
@@ -53,7 +55,7 @@ class ApiController:
     def save_file(self, audio_data, email, enrollment, owner_voice):
 
         #define file name
-        filename
+        filename = uuid.uuid4().hex
 
         folder = os.path.join(self.wavs_path, folder_name, "self" if self_voice else "other")
 
@@ -64,19 +66,33 @@ class ApiController:
         #salvar o arquivo
         file_path = os.path.join()
 
-    def update_name(self, email, name):
-        if name and email in self.users.index:
+    def add_user(self, email, name):
+        if email in self.users.index:
+            return False
+        else:
             self.users.loc[email, 'name'] = name
+            self.users.loc[email, 'status'] = 0 # passo 0 do cadastro
+            self.users.loc[email, 'n_audios'] = 0
             self.save_users_csv()
             return True
-        else:
-            return False
 
     def hash_string(text):
         return hashlib.md5(text.encode('utf-8')).hexdigest()[:16]
 
-    def get_name_by_email(self, email):
-        if email in self.users.index:
-            return self.users.loc[email, 'name']
-        else:
-            return False
+    def check_user(self, email):
+        if email not in self.users.index:
+            self.add_user(email, "")
+        return self.users.loc[email].to_dict()
+
+    def enroll_audio(self, email, audio_content, audio_data):
+        #todo: generate audio name
+        filename = uuid.uuid4().hex + '.wav'
+        audio_data.save(os.path.join(self.audios_folder, filename))
+        embeddings = self.predict_embedding(audio_data)
+
+
+    def predict_embedding(self, audio_data):
+
+        #todo: predict embedding
+
+        return []
