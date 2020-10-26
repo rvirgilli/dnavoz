@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 import numpy as np
 import hashlib
 import uuid
@@ -16,41 +17,45 @@ class ApiController:
         self.audios_folder = audios_folder
         self.users_csv = users_csv
         self.audios_csv = audios_csv
+        self.pickles_folder = './pickles'
+
+        dtypes_users = np.dtype([
+            ('email', str),
+            ('name', str),
+            ('status', int),
+            ('n_audios', int)
+        ])
 
         if os.path.exists(users_csv):
-            self.users = pd.read_csv(users_csv, index_col='email')
+            self.users = pd.read_csv(users_csv, index_col='email', dtype=dtypes_users)
         else:
-            dtypes = np.dtype([
-                ('email', str),
-                ('name', str),
-                ('status', int),
-                ('n_audios', int)
-            ])
-
-            users_df = np.empty(0, dtype=dtypes)
+            users_df = np.empty(0, dtype=dtypes_users)
             self.users = pd.DataFrame(users_df).set_index('email')
             self.users.to_csv(users_csv)
 
-        if os.path.exists(audios_csv):
-            self.audios = pd.read_csv(audios_csv)
-        else:
-            dtypes = np.dtype([
-                ('email', str),
-                ('file_name', str),
-                ('content', str),
-                ('enrollment', bool),
-                ('owner_voice', bool)
-            ])
+        dtypes_audios = np.dtype([
+            ('file_name', str),
+            ('email', str),
+            ('content_type', str),
+            ('enrollment', bool),
+            ('owner_voice', bool)
+        ])
 
+        if os.path.exists(audios_csv):
+            self.audios = pd.read_csv(audios_csv, index_col='file_name', dtype=dtypes_audios)
+        else:
             #todo identify device by cookie (to compare same user from different devices)
 
-            audios_df = np.empty(0, dtype=dtypes)
-            self.audios = pd.DataFrame(audios_df)
-            self.audios.to_csv(audios_csv, index=False)
+            audios_df = np.empty(0, dtype=dtypes_audios)
+
+            self.audios = pd.DataFrame(audios_df).set_index('file_name')
+            self.audios.to_csv(audios_csv)
 
     def save_users_csv(self):
         self.users.to_csv(self.users_csv)
 
+    def save_audios_csv(self):
+        self.audios.to_csv(self.users_csv)
 
     def save_file(self, audio_data, email, enrollment, owner_voice):
 
@@ -76,19 +81,56 @@ class ApiController:
             self.save_users_csv()
             return True
 
-    def hash_string(text):
-        return hashlib.md5(text.encode('utf-8')).hexdigest()[:16]
-
     def check_user(self, email):
         if email not in self.users.index:
             self.add_user(email, "")
         return self.users.loc[email].to_dict()
 
-    def enroll_audio(self, email, audio_content, audio_data):
-        #todo: generate audio name
-        filename = uuid.uuid4().hex + '.wav'
-        audio_data.save(os.path.join(self.audios_folder, filename))
+    def enroll_audio(self, email, content_type, enrollment, audio_data):
+        filename = uuid.uuid4().hex
+        audio_data.save(os.path.join(self.audios_folder, filename + '.wav'))
         embeddings = self.predict_embedding(audio_data)
+        with open(os.path.join(self.pickles_folder, filename + '.pickle'), "wb") as output_file:
+            pickle.dump(embeddings, output_file)
+
+        self.audios.loc[filename, 'email'] = email
+        self.audios.loc[filename, 'content_type'] = content_type
+        self.audios.loc[filename, 'enrollment'] = enrollment
+        self.audios.loc[filename, 'owner_voice'] = True
+
+        return True
+
+
+    def update_enrollment_status(self, email):
+        status = self.check_user(email)['status']
+        nrefs = len(self.audios.loc[(self.audios['email'] == email) &
+                       (self.audios['content_type'] == 'speech') &
+                       (self.audios['enrollment'] == True)])
+
+        nkeyword = len(self.audios.loc[(self.audios['email'] == email) &
+                       (self.audios['content_type'] == 'keyword') &
+                       (self.audios['enrollment'] == True)])
+
+        nnoise = len(self.audios.loc[(self.audios['email'] == email) &
+                       (self.audios['content_type'] == 'noise') &
+                       (self.audios['enrollment'] == True)])
+
+        if nrefs == 0:
+            status = 0
+        elif nrefs == 1:
+            status = 1
+        elif nrefs == 2:
+            status = 2
+        elif nrefs == 3:
+            status = 3
+        elif nkeyword == 1:
+            status = 4
+        elif nnoise == 1:
+            status = 10
+
+        self.users.loc[email, 'status'] = status
+
+        return status
 
 
     def predict_embedding(self, audio_data):

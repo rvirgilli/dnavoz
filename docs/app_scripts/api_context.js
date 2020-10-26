@@ -60,20 +60,21 @@ class API_Context{
             }
         };
 
-        var audio_content;
+        var content_type;
 
         if (rec_id == 1 || rec_id == 2 || rec_id == 3)
-            audio_content = "speech";
+            content_type = "speech";
         else if (rec_id == 4)
-            audio_content = "keyword";
+            content_type = "keyword";
         else if (rec_id == 5)
-            audio_content = "noise";
+            content_type = "noise";
         else
             console.log('update_blob rec_id error')
 
         var fd=new FormData();
         fd.append("user_email", user_email);
-        fd.append("audio_content", audio_content);
+        fd.append("content_type", content_type);
+        fd.append("enrollment", true);
         fd.append("audio_data",blob, "audio");
         this.xhr.open("POST", this.enroll_url,true);
         this.xhr.send(fd);

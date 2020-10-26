@@ -44,10 +44,13 @@ def adduser():
 #@cross_origin()
 def enroll():
     email = request.form['user_email']
-    audio_content = request.form['audio_content']
+    content_type = request.form['content_type']
+    enrollment = request.form['enrollment']
     audio_data = request.files['audio_data']
 
-    a = enroll_audio(email, audio_content, audio_data)
+    a = enroll_audio(email, content_type, enrollment, audio_data)
+
+    #todo update enrollment status
 
     #todo create method to validate and save audio
 
