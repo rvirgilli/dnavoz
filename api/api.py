@@ -2,7 +2,7 @@
 import flask
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
-from tasks import check_user, add_user, enroll_audio
+from tasks import check_user, add_user, enroll_audio, update_status
 
 app = flask.Flask(__name__)
 CORS(app, origins=['http://localhost:63342', 'https://rvirgilli.github.io'])
@@ -45,10 +45,12 @@ def adduser():
 def enroll():
     email = request.form['user_email']
     content_type = request.form['content_type']
+    status = request.form['status']
     enrollment = request.form['enrollment']
     audio_data = request.files['audio_data']
 
     a = enroll_audio(email, content_type, enrollment, audio_data)
+    update_status(email, status)
 
     #todo update enrollment status
 

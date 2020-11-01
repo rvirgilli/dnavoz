@@ -20,3 +20,7 @@ def add_user(email, name):
 @app.task
 def enroll_audio(email, audio_content, audio_data):
     return ctl.enroll_audio(email, audio_content, audio_data)
+
+@app.task
+def update_status(email, status):
+    return ctl.update_enrollment_status(email, status)

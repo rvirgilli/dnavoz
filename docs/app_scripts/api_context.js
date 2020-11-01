@@ -74,6 +74,7 @@ class API_Context{
         var fd=new FormData();
         fd.append("user_email", user_email);
         fd.append("content_type", content_type);
+        fd.append("status", rec_id);
         fd.append("enrollment", true);
         fd.append("audio_data",blob, "audio");
         this.xhr.open("POST", this.enroll_url,true);

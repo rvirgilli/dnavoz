@@ -101,33 +101,7 @@ class ApiController:
         return True
 
 
-    def update_enrollment_status(self, email):
-        status = self.check_user(email)['status']
-        nrefs = len(self.audios.loc[(self.audios['email'] == email) &
-                       (self.audios['content_type'] == 'speech') &
-                       (self.audios['enrollment'] == True)])
-
-        nkeyword = len(self.audios.loc[(self.audios['email'] == email) &
-                       (self.audios['content_type'] == 'keyword') &
-                       (self.audios['enrollment'] == True)])
-
-        nnoise = len(self.audios.loc[(self.audios['email'] == email) &
-                       (self.audios['content_type'] == 'noise') &
-                       (self.audios['enrollment'] == True)])
-
-        if nrefs == 0:
-            status = 0
-        elif nrefs == 1:
-            status = 1
-        elif nrefs == 2:
-            status = 2
-        elif nrefs == 3:
-            status = 3
-        elif nkeyword == 1:
-            status = 4
-        elif nnoise == 1:
-            status = 10
-
+    def update_enrollment_status(self, email, status):
         self.users.loc[email, 'status'] = status
 
         return status
