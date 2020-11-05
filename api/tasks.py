@@ -18,8 +18,8 @@ def add_user(email, name):
     return ctl.add_user(email, name)
 
 @app.task
-def enroll_audio(email, audio_content, audio_data):
-    return ctl.enroll_audio(email, audio_content, audio_data)
+def process_audio(email, content_type, enrollment, audio_data):
+    return ctl.process_audio(email, content_type, enrollment, audio_data)
 
 @app.task
 def update_status(email, status):

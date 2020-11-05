@@ -19,31 +19,43 @@ class ApiController:
         self.audios_csv = audios_csv
         self.pickles_folder = './pickles'
 
-        dtypes_users = np.dtype([
-            ('email', str),
-            ('name', str),
-            ('status', int),
-            ('n_audios', int)
-        ])
-
         if os.path.exists(users_csv):
+            dtypes_users = {
+                'email': str,
+                'name': str,
+                'status': int,
+                'n_audios': int
+            }
             self.users = pd.read_csv(users_csv, index_col='email', dtype=dtypes_users)
         else:
+            dtypes_users = np.dtype([
+                ('email', str),
+                ('name', str),
+                ('status', int),
+                ('n_audios', int)
+            ])
             users_df = np.empty(0, dtype=dtypes_users)
             self.users = pd.DataFrame(users_df).set_index('email')
             self.users.to_csv(users_csv)
 
-        dtypes_audios = np.dtype([
-            ('file_name', str),
-            ('email', str),
-            ('content_type', str),
-            ('enrollment', bool),
-            ('owner_voice', bool)
-        ])
-
         if os.path.exists(audios_csv):
+            dtypes_audios = {
+                'file_name': str,
+                'email': str,
+                'content_type': str,
+                'owner_voice': bool,
+                'verification': int
+            }
             self.audios = pd.read_csv(audios_csv, index_col='file_name', dtype=dtypes_audios)
         else:
+            dtypes_audios = np.dtype([
+                ('file_name', str),
+                ('email', str),
+                ('content_type', str),
+                ('owner_voice', bool),
+                ('verification', int)
+            ])
+
             #todo identify device by cookie (to compare same user from different devices)
 
             audios_df = np.empty(0, dtype=dtypes_audios)
@@ -55,38 +67,28 @@ class ApiController:
         self.users.to_csv(self.users_csv)
 
     def save_audios_csv(self):
-        self.audios.to_csv(self.users_csv)
-
-    def save_file(self, audio_data, email, enrollment, owner_voice):
-
-        #define file name
-        filename = uuid.uuid4().hex
-
-        folder = os.path.join(self.wavs_path, folder_name, "self" if self_voice else "other")
-
-        file_name = str(len(os.listdir(folder))).zfill(5) + ".wav"
-
-        audio_data.save(os.path.join(folder, file_name))
-
-        #salvar o arquivo
-        file_path = os.path.join()
+        self.audios.to_csv(self.audios_csv)
 
     def add_user(self, email, name):
-        if email in self.users.index:
-            return False
+        self.users.loc[email, 'name'] = name
+        self.users.loc[email, 'n_audios'] = 0
+        if name == "":
+            self.users.loc[email, 'status'] = 0
         else:
-            self.users.loc[email, 'name'] = name
-            self.users.loc[email, 'status'] = 0 # passo 0 do cadastro
-            self.users.loc[email, 'n_audios'] = 0
-            self.save_users_csv()
-            return True
+            self.users.loc[email, 'status'] = 1
+        self.save_users_csv()
+        return True
 
     def check_user(self, email):
         if email not in self.users.index:
             self.add_user(email, "")
-        return self.users.loc[email].to_dict()
+        dct = self.users.loc[email].to_dict()
+        dct['status'] = int(dct['status'])
+        dct['n_audios'] = int(dct['n_audios'])
+        self.save_users_csv()
+        return dct
 
-    def enroll_audio(self, email, content_type, enrollment, audio_data):
+    def process_audio(self, email, content_type, enrollment, audio_data):
         filename = uuid.uuid4().hex
         audio_data.save(os.path.join(self.audios_folder, filename + '.wav'))
         embeddings = self.predict_embedding(audio_data)
@@ -95,15 +97,37 @@ class ApiController:
 
         self.audios.loc[filename, 'email'] = email
         self.audios.loc[filename, 'content_type'] = content_type
-        self.audios.loc[filename, 'enrollment'] = enrollment
         self.audios.loc[filename, 'owner_voice'] = True
 
-        return True
+        if content_type == "verification":
+            verification = self.verify_embedding(email, embeddings)
+        else:
+            verification = 0
 
+        self.audios.loc[filename, 'verification'] = verification
+        self.save_audios_csv()
+        return {
+            'verification': verification,
+            'id': filename
+        }
+
+    def verify_embedding(self, email, verification_embeddings):
+        ref_ids = list(self.audios.loc[(self.audios['email'] == 'rvirgilli@gmail.com') &
+                                       (self.audios['content_type'] == 'speech')].index)
+
+        with open(os.path.join(self.pickles_folder, ref_ids[0] + '.pickle'), "rb") as emb_file:
+            ref_embeddings = pickle.load(emb_file)
+
+        #concatenate all ref embeddings
+
+        #calculate similarity and give an answer
+
+        #must return -1 (negative) or 1 (positive)
+        return 1
 
     def update_enrollment_status(self, email, status):
         self.users.loc[email, 'status'] = status
-
+        self.save_users_csv()
         return status
 
 

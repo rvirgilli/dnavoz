@@ -1,7 +1,7 @@
 class API_Context{
     constructor(api_url) {
         this.api_url = api_url;
-        this.enroll_url = this.api_url + '/enroll'
+        this.upload_audio_url = this.api_url + '/upload_audio'
         this.check_user_url = this.api_url + "/check_user"
         this.add_user_url = this.api_url + "/add_user"
         this.xhr = new XMLHttpRequest();
@@ -74,10 +74,34 @@ class API_Context{
         var fd=new FormData();
         fd.append("user_email", user_email);
         fd.append("content_type", content_type);
-        fd.append("status", rec_id);
+        fd.append("status", rec_id + 1);
         fd.append("enrollment", true);
         fd.append("audio_data",blob, "audio");
-        this.xhr.open("POST", this.enroll_url,true);
+        this.xhr.open("POST", this.upload_audio_url,true);
+        this.xhr.send(fd);
+    }
+
+    verify_blob(user_email, blob, success_callback, error_callback){
+        this.xhr.onload = function() {
+            if (this.readyState == 4 && this.status == 200){
+                var resp = this.response["enroll_bool"];
+                if (resp){
+                    success_callback();
+                } else{
+                    error_callback();
+                }
+            }
+        };
+
+        var content_type;
+
+        var fd=new FormData();
+        fd.append("user_email", user_email);
+        fd.append("content_type", "verification");
+        fd.append("status", -1);
+        fd.append("enrollment", false);
+        fd.append("audio_data",blob, "audio");
+        this.xhr.open("POST", this.upload_audio_url,true);
         this.xhr.send(fd);
     }
 

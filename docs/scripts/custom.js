@@ -373,7 +373,7 @@ $(document).ready(function(){
                 autoplay: false,
                 dots:false,
                 autoplayTimeout:0,
-                mouseDrag:false,
+                mouseDrag:true,
                 touchDrag:false,
                 pullDrag:false,
                 freeDrag:false,

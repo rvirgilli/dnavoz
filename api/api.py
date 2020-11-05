@@ -2,7 +2,7 @@
 import flask
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
-from tasks import check_user, add_user, enroll_audio, update_status
+from tasks import check_user, add_user, process_audio, update_status
 
 app = flask.Flask(__name__)
 CORS(app, origins=['http://localhost:63342', 'https://rvirgilli.github.io'])
@@ -25,7 +25,7 @@ def test():
     return "test"
 
 @app.route('/check_user', methods=['POST'])
-#@cross_origin()
+@cross_origin()
 def checkuser():
     email = request.form['user_email']
     j = jsonify(check_user(email))
@@ -40,23 +40,19 @@ def adduser():
     return j
 
 
-@app.route('/enroll', methods=['POST'])
-#@cross_origin()
-def enroll():
+@app.route('/upload_audio', methods=['POST'])
+@cross_origin()
+def upload_audio():
     email = request.form['user_email']
     content_type = request.form['content_type']
     status = request.form['status']
     enrollment = request.form['enrollment']
     audio_data = request.files['audio_data']
 
-    a = enroll_audio(email, content_type, enrollment, audio_data)
+    resp = process_audio(email, content_type, enrollment, audio_data)
     update_status(email, status)
 
-    #todo update enrollment status
-
-    #todo create method to validate and save audio
-
-    j = jsonify({'enroll_bool': True})
+    j = jsonify(resp)
     return j
 
 def enrollment():

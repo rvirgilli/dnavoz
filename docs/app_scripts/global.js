@@ -8,6 +8,10 @@ function custom_inits() {
     if($('#enroll')[0]){
         init_enroll();
     }
+
+    if($('#verify')[0]){
+        init_verify();
+    }
 }
 
 function generic_error_callback(error_message){

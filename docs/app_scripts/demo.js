@@ -17,7 +17,7 @@ function check_user(){
         var status = resp['status']
 
         //cadastro completo
-        if (status == 10) {
+        if (status == 6) {
             $('#h1_name').html("Olá, " + name);
             $('#complete').showMenu();
         }
@@ -28,7 +28,7 @@ function check_user(){
             $('#signup').showMenu();
         }
         //cadastro iniciado
-        else if (status > 0 && status < 10) {
+        else if (status > 0 && status < 6) {
             $('#signup > div > h3').text('Cadastro incompleto')
             $('#signup > div > p').text("Vamos continuar o cadastro? Não leva nem 1 minuto.")
             $('#signup').showMenu();

@@ -27,7 +27,7 @@ function move_to_start_step(){
 
 function start_at_step(start_step){
     if (start_step == 0)
-        start_email();
+        init_step_email();
     else if (start_step == 1){
         //1o audio de referencia
         owl.trigger('to.owl.carousel', [1]);
@@ -96,12 +96,12 @@ function init_step_email() {
 
 function init_recorder(rec_id){
     //initBinCanvas();
-    $('#rec' + rec_id + ' #timer').text(pad((utterance_length/1000).toFixed(2), 5))
+    $('#rec' + rec_id + ' #timer').text(pad((dict_lengths[rec_id]/1000).toFixed(2), 5))
     if (!audio_ctx.hasSetupUserMedia){
         $('#modal-acesso').showMenu();
         $('#btn_authorize').on('click', function(){
             audio_ctx.get_audio_authorization(function (){
-                init_analyser_animation(rec_id);
+                //init_analyser_animation(rec_id);
                 $('#modal-acesso').hideMenu();
             });
         })
@@ -141,14 +141,13 @@ function init_recorder(rec_id){
             })
             $('#rec' + rec_id + ' .checkmark').css("visibility", "visible");
             kill_analyser_animation();
-        }, utterance_length);
+        }, dict_lengths[rec_id]);
     })
 }
 
 function record1_success(){
     $('#rec1-success > a').on('click', function (){
         init_recorder(2);
-        init_analyser_animation(2);
         $('#rec1-success').hideMenu()
         owl.trigger('to.owl.carousel', [2]);
     })
@@ -158,7 +157,6 @@ function record1_success(){
 function record2_success(){
     $('#rec2-success > a').on('click', function (){
         init_recorder(3);
-        init_analyser_animation(3);
         $('#rec2-success').hideMenu()
         owl.trigger('to.owl.carousel', [3]);
     })
@@ -168,7 +166,6 @@ function record2_success(){
 function record3_success(){
     $('#rec3-success > a').on('click', function (){
         init_recorder(4);
-        init_analyser_animation(4);
         $('#rec3-success').hideMenu()
         owl.trigger('to.owl.carousel', [4]);
     })
@@ -178,7 +175,6 @@ function record3_success(){
 function record4_success(){
     $('#rec4-success > a').on('click', function (){
         init_recorder(5);
-        init_analyser_animation(5);
         $('#rec4-success').hideMenu()
         owl.trigger('to.owl.carousel', [5]);
     })

@@ -21,22 +21,22 @@ function init_analyser_animation(id) {
 };
 
 function start_timer(id){
-    var qid = '#rec' + id + ' ';
+    var qid = '#rec' + id;
 
     // Set the date we're counting down to
-    var countMilis = utterance_length;
+    var countMilis = dict_lengths[id];
 
     // Update the count down every 10 milliseconds
     var x = setInterval(function() {
 
-        countMilis -= 10;
+        countMilis -= 50;
 
-        $(qid + '#timer').text(pad((countMilis/1000).toFixed(2), 5))
+        $(qid + ' #timer').text(pad((countMilis/1000).toFixed(2), 5))
 
         if(countMilis == 0){
             clearInterval(x);
         }
-    }, 10);
+    }, 50);
 }
 
 function pad(num, size) {
