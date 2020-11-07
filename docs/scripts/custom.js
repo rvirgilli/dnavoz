@@ -377,6 +377,7 @@ $(document).ready(function(){
                 touchDrag:false,
                 pullDrag:false,
                 freeDrag:false,
+                startPosition: 0,
             });
             $('.user-slider').owlCarousel({loop:false, margin:20, nav:false, lazyLoad:true, items:1, autoplay: false, dots:false, autoplayTimeout:4000});		
             $('.single-slider').owlCarousel({loop:true, margin:20, nav:false, lazyLoad:true, items:1, autoplay: true, autoplayTimeout:4000});		

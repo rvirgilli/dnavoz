@@ -4,6 +4,7 @@ var audio_ctx, user_email, red_id, owl;
 function init_verify(){
     console.log('init_verify')
     owl = $('.owl-carousel');
+
     //get user infos from cookie
     audio_ctx = new AppAudioContext(fftSize, record_as_wav);
     init_recorder(1);
@@ -15,6 +16,8 @@ function init_recorder(rec_id){
     $('#rec' + rec_id + ' #timer').text(pad((dict_lengths[rec_id]/1000).toFixed(2), 5))
     if (!audio_ctx.hasSetupUserMedia){
         $('#modal-acesso').showMenu();
+        owl = $('.owl-carousel');
+        owl.trigger('to.owl.carousel', [0]);
         $('#btn_authorize').on('click', function(){
             audio_ctx.get_audio_authorization(function (){
                 //init_analyser_animation(rec_id);
