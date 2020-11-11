@@ -23,8 +23,7 @@ class ApiController:
             dtypes_users = {
                 'email': str,
                 'name': str,
-                'status': int,
-                'n_audios': int
+                'status': int
             }
             self.users = pd.read_csv(users_csv, index_col='email', dtype=dtypes_users)
         else:
@@ -84,7 +83,6 @@ class ApiController:
             self.add_user(email, "")
         dct = self.users.loc[email].to_dict()
         dct['status'] = int(dct['status'])
-        dct['n_audios'] = int(dct['n_audios'])
         self.save_users_csv()
         return dct
 

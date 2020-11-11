@@ -51,9 +51,9 @@ class API_Context{
     upload_blob(user_email, blob, rec_id, success_callback, error_callback){
         this.xhr.onload = function() {
             if (this.readyState == 4 && this.status == 200){
-                var resp = this.response["enroll_bool"];
+                var resp = this.response;
                 if (resp){
-                    success_callback();
+                    success_callback(resp);
                 } else{
                     error_callback();
                 }
@@ -61,6 +61,7 @@ class API_Context{
         };
 
         var content_type;
+        var enrollment = true;
 
         if (rec_id == 1 || rec_id == 2 || rec_id == 3)
             content_type = "speech";
@@ -68,6 +69,11 @@ class API_Context{
             content_type = "keyword";
         else if (rec_id == 5)
             content_type = "noise";
+        else if (rec_id == -2) {
+            content_type = "verification";
+            enrollment = false;
+        }
+
         else
             console.log('update_blob rec_id error')
 
@@ -75,31 +81,7 @@ class API_Context{
         fd.append("user_email", user_email);
         fd.append("content_type", content_type);
         fd.append("status", rec_id + 1);
-        fd.append("enrollment", true);
-        fd.append("audio_data",blob, "audio");
-        this.xhr.open("POST", this.upload_audio_url,true);
-        this.xhr.send(fd);
-    }
-
-    verify_blob(user_email, blob, success_callback, error_callback){
-        this.xhr.onload = function() {
-            if (this.readyState == 4 && this.status == 200){
-                var resp = this.response["enroll_bool"];
-                if (resp){
-                    success_callback();
-                } else{
-                    error_callback();
-                }
-            }
-        };
-
-        var content_type;
-
-        var fd=new FormData();
-        fd.append("user_email", user_email);
-        fd.append("content_type", "verification");
-        fd.append("status", -1);
-        fd.append("enrollment", false);
+        fd.append("enrollment", enrollment);
         fd.append("audio_data",blob, "audio");
         this.xhr.open("POST", this.upload_audio_url,true);
         this.xhr.send(fd);

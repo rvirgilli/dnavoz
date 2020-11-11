@@ -2,6 +2,8 @@
 var audio_ctx, user_email, red_id, owl;
 
 function init_verify(){
+    user_email = getCookie('email');
+
     console.log('init_verify')
     owl = $('.owl-carousel');
 
@@ -33,7 +35,10 @@ function init_recorder(rec_id){
         start_timer(rec_id);
         setTimeout(function(){
             audio_ctx.stop_recording(function (blob){
-                api_ctx.upload_blob(user_email, blob, rec_id, function (){
+                api_ctx.upload_blob(user_email, blob, -2, function (resp){
+                    console.log(resp)
+
+                    //
                     record1_success();
                 }, function (){
                     generic_error_callback('recorder ' + red_id + ' error');
