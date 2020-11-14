@@ -1,2 +1,4 @@
 /api/csvs/audios.csv
 /api/csvs/users.csv
+/api/pickles/*
+/api/audios/*
