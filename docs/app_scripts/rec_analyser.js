@@ -21,12 +21,16 @@ function init_analyser_animation(id) {
 };
 
 function start_timer(id){
-    var qid = '#rec' + id;
+    if(id == 6) {
+        qid = '#rec1';
+    } else {
+        var qid = '#rec' + id;
+    }
 
     // Set the date we're counting down to
     var countMilis = dict_lengths[id];
 
-    // Update the count down every 10 milliseconds
+    // Update the count down every 50 milliseconds
     var x = setInterval(function() {
 
         countMilis -= 50;

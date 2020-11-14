@@ -2,8 +2,9 @@ class API_Context{
     constructor(api_url) {
         this.api_url = api_url;
         this.upload_audio_url = this.api_url + '/upload_audio'
-        this.check_user_url = this.api_url + "/check_user"
-        this.add_user_url = this.api_url + "/add_user"
+        this.check_user_url = this.api_url + '/check_user'
+        this.add_user_url = this.api_url + '/add_user'
+        this.set_confirmation_url = this.api_url + '/set_confirmation'
         this.xhr = new XMLHttpRequest();
         this.xhr.responseType = 'json'
         this.xhr.onerror = function() { // only triggers if the request couldn't be made at all
@@ -61,7 +62,6 @@ class API_Context{
         };
 
         var content_type;
-        var enrollment = true;
 
         if (rec_id == 1 || rec_id == 2 || rec_id == 3)
             content_type = "speech";
@@ -71,7 +71,6 @@ class API_Context{
             content_type = "noise";
         else if (rec_id == -2) {
             content_type = "verification";
-            enrollment = false;
         }
 
         else
@@ -81,9 +80,27 @@ class API_Context{
         fd.append("user_email", user_email);
         fd.append("content_type", content_type);
         fd.append("status", rec_id + 1);
-        fd.append("enrollment", enrollment);
         fd.append("audio_data",blob, "audio");
         this.xhr.open("POST", this.upload_audio_url,true);
+        this.xhr.send(fd);
+    }
+
+    set_confirmation(id, value, success_callback, error_callback) {
+        this.xhr.onload = function() {
+            if (this.readyState == 4 && this.status == 200){
+                var resp = this.response;
+                if (resp){
+                    success_callback();
+                } else{
+                    error_callback();
+                }
+            }
+        };
+
+        var fd=new FormData();
+        fd.append("file_id", id);
+        fd.append("confirmation_value", value);
+        this.xhr.open("POST", this.set,true);
         this.xhr.send(fd);
     }
 
@@ -94,7 +111,7 @@ class API_Context{
             }
         };
         var fd=new FormData();
-        this.xhr.open("GET", this.api_url,true);
+        this.xhr.open("GET", this.set_confirmation_url,true);
         this.xhr.send();
     }
 }

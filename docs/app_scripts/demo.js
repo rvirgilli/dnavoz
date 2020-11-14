@@ -15,6 +15,7 @@ function check_user(){
         setCookie('n_audios', resp['n_audios'], 365);
 
         var status = resp['status']
+        var name = resp['name']
 
         //cadastro completo
         if (status == 6) {
@@ -33,6 +34,12 @@ function check_user(){
             $('#signup > div > p').text("Vamos continuar o cadastro? Não leva nem 1 minuto.")
             $('#signup').showMenu();
         }
+        //erro
+        else {
+            console.log('check_user status error')
+        }
 
-    }, generic_error_callback('check_user error'))
+    }, function(){
+        console.log('check_user error');
+    })
 }

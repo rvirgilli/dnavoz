@@ -9,13 +9,13 @@ function init_verify(){
 
     //get user infos from cookie
     audio_ctx = new AppAudioContext(fftSize, record_as_wav);
-    init_recorder(1);
+    init_recorder_verify();
 }
 
 
-function init_recorder(rec_id){
+function init_recorder_verify(){
     //initBinCanvas();
-    $('#rec' + rec_id + ' #timer').text(pad((dict_lengths[rec_id]/1000).toFixed(2), 5))
+    $('#rec1 #timer').text(pad((dict_lengths[6]/1000).toFixed(2), 5))
     if (!audio_ctx.hasSetupUserMedia){
         $('#modal-acesso').showMenu();
         owl = $('.owl-carousel');
@@ -28,34 +28,60 @@ function init_recorder(rec_id){
         })
     }
 
-    $('#rec' + rec_id + ' .container #btn' + rec_id).on('click', function(){
+    $('#rec1 .container #btn1').on('click', function(){
         //$(this).prop('disabled', true);
         //$(this).prop("onclick", null).off("click");
         audio_ctx.start_recording();
-        start_timer(rec_id);
+        start_timer(6);
         setTimeout(function(){
             audio_ctx.stop_recording(function (blob){
                 api_ctx.upload_blob(user_email, blob, -2, function (resp){
                     console.log(resp)
-
                     //
-                    record1_success();
+                    verification_success(resp);
                 }, function (){
-                    generic_error_callback('recorder ' + red_id + ' error');
+                    console.log('recorder verification error');
                 });
             });
-            $('#rec' + rec_id + ' .checkmark').css("visibility", "visible");
+            $('#rec1 .checkmark').css("visibility", "visible");
             //kill_analyser_animation();
-        }, verify_length);
+        }, dict_lengths[6]);
     })
 }
 
-function record1_success(){
-    $('#rec1-success > a').on('click', function (){
-        $('#rec1-success').hideMenu()
-        owl.trigger('to.owl.carousel', [1]);
-    })
-    $('#rec1-success').showMenu()
+function verification_success(resp){
+    verification_id = resp['id'];
+    verification_value = resp['verification'];
+    $('#verification_id').val(verification_value)
+
+    if (verification_value == 1) {
+        $('#confirm-verification > h1').text("É a sua voz!");
+        $('#confirm-verification').showMenu();
+    } else if (verification_value == -1) {
+        $('#confirm-verification > h1').text("Não é a sua voz!");
+        $('#confirm-verification').showMenu();
+    } else {
+        console.log('verification_value error');
+    }
+
+    $('#confirm-verification a').first().on('click', function (){
+        api_ctx.set_confirmation(verification_id, 1, function(){
+            //todo: give positive answer
+            console.log('thanks');
+        }, function(){
+            console.log('set_confimation error')
+        });
+    });
+
+    $('#confirm-verification a').last().on('click', function (){
+        api_ctx.set_confirmation(verification_id, -1, function(){
+            //todo: give positive answer
+            console.log('apology');
+        }, function(){
+            console.log('set_confimation error');
+        });
+    }
+
 }
 
 

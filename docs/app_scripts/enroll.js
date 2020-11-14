@@ -1,7 +1,5 @@
 //page first-time
-var audio_ctx, user_email, red_id, owl;
-
-var steps = ['email', 'rec1', 'rec2', 'rec3', 'rec4', 'rec5', 'final'];
+var audio_ctx, user_email, rec_id, owl;
 
 function init_enroll(){
     console.log('init_enroll')
@@ -136,7 +134,7 @@ function init_recorder(rec_id){
                             break;
                     }
                 }, function (){
-                    generic_error_callback('recorder ' + red_id + ' error');
+                    generic_error_callback('recorder ' + rec_id + ' error');
                 });
             })
             $('#rec' + rec_id + ' .checkmark').css("visibility", "visible");

@@ -61,7 +61,7 @@
                     <div class="content">
                         <h4>Card Classic Full</h4>
                         <p>
-                            Rec1
+                            Rec Verify
                         </p>
                     </div>
                 </div>
@@ -101,19 +101,34 @@
 
     <!--end of page content, off canvas elements here-->
 
+    <div id="modal-acesso"
+         class="menu menu-box-bottom menu-box-detached rounded-m"
+         data-menu-height="230"
+         data-menu-effect="menu-over">
+        <div class="boxed-text-xl">
+            <h3 class="text-uppercase mt-4 font-900">Autorize o microfone</h3>
+            <p>
+                Autorize o microfone para poder testar.<br>
+                Obrigado!
+            </p>
+            <a href="#" id="btn_authorize" data-menu="menu-tour-2" class="btn btn-s rounded-s shadow-l bg-highlight btn-center-m text-uppercase font-900">autorizar</a>
+        </div>
+    </div>
+
     <div id="confirm-verification" class="menu menu-box-modal rounded-m"
          data-menu-height="200"
          data-menu-width="330">
-        <h1 class="text-center mt-3 pb-1">Are you sure?</h1>
+        <h1 class="text-center mt-3 pb-1"></h1>
         <p class="boxed-text-l">
-            You can even use these boxes for confirmations. Any element can trigger them.
+            Por favor, nos diga se acertamos, assim poderemos melhorar. Obrigado!
         </p>
         <div class="row mr-3 ml-3 mb-0">
+            <input type="hidden" id="verification_id" name="verification_id">
             <div class="col-6">
-                <a href="#" class="close-menu btn btn-sm btn-full button-s shadow-l rounded-s text-uppercase font-900 bg-green1-dark">Accept</a>
+                <a href="#" class="close-menu btn btn-sm btn-full button-s shadow-l rounded-s text-uppercase font-900 bg-green1-dark">Certo</a>
             </div>
             <div class="col-6">
-                <a href="#" class="close-menu btn btn-sm btn-full button-s shadow-l rounded-s text-uppercase font-900 bg-red1-dark">REJECT</a>
+                <a href="#" class="close-menu btn btn-sm btn-full button-s shadow-l rounded-s text-uppercase font-900 bg-red1-dark">Errado</a>
             </div>
         </div>
     </div>

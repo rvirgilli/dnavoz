@@ -30,8 +30,7 @@ class ApiController:
             dtypes_users = np.dtype([
                 ('email', str),
                 ('name', str),
-                ('status', int),
-                ('n_audios', int)
+                ('status', int)
             ])
             users_df = np.empty(0, dtype=dtypes_users)
             self.users = pd.DataFrame(users_df).set_index('email')
@@ -42,8 +41,8 @@ class ApiController:
                 'file_name': str,
                 'email': str,
                 'content_type': str,
-                'owner_voice': bool,
-                'verification': int
+                'verification': int,
+                'confirmation': int,
             }
             self.audios = pd.read_csv(audios_csv, index_col='file_name', dtype=dtypes_audios)
         else:
@@ -51,8 +50,8 @@ class ApiController:
                 ('file_name', str),
                 ('email', str),
                 ('content_type', str),
-                ('owner_voice', bool),
-                ('verification', int)
+                ('verification', int),
+                ('confirmation', int)
             ])
 
             #todo identify device by cookie (to compare same user from different devices)
@@ -70,11 +69,10 @@ class ApiController:
 
     def add_user(self, email, name):
         self.users.loc[email, 'name'] = name
-        self.users.loc[email, 'n_audios'] = 0
         if name == "":
-            self.users.loc[email, 'status'] = 0
+            self.users.loc[email, 'status'] = int(0)
         else:
-            self.users.loc[email, 'status'] = 1
+            self.users.loc[email, 'status'] = int(1)
         self.save_users_csv()
         return True
 
@@ -86,7 +84,7 @@ class ApiController:
         self.save_users_csv()
         return dct
 
-    def process_audio(self, email, content_type, enrollment, audio_data):
+    def process_audio(self, email, content_type, audio_data):
         filename = uuid.uuid4().hex
         audio_data.save(os.path.join(self.audios_folder, filename + '.wav'))
         embeddings = self.predict_embedding(audio_data)
@@ -95,14 +93,14 @@ class ApiController:
 
         self.audios.loc[filename, 'email'] = email
         self.audios.loc[filename, 'content_type'] = content_type
-        self.audios.loc[filename, 'owner_voice'] = True
 
         if content_type == "verification":
             verification = self.verify_embedding(email, embeddings)
         else:
             verification = 0
 
-        self.audios.loc[filename, 'verification'] = verification
+        self.audios.loc[filename, 'verification'] = int(verification)
+        self.audios.loc[filename, 'confirmation'] = int(0)
         self.save_audios_csv()
         return {
             'verification': verification,
@@ -113,8 +111,8 @@ class ApiController:
         ref_ids = list(self.audios.loc[(self.audios['email'] == 'rvirgilli@gmail.com') &
                                        (self.audios['content_type'] == 'speech')].index)
 
-        with open(os.path.join(self.pickles_folder, ref_ids[0] + '.pickle'), "rb") as emb_file:
-            ref_embeddings = pickle.load(emb_file)
+        #with open(os.path.join(self.pickles_folder, ref_ids[0] + '.pickle'), "rb") as emb_file:
+        #    ref_embeddings = pickle.load(emb_file)
 
         #concatenate all ref embeddings
 
@@ -123,14 +121,17 @@ class ApiController:
         #must return -1 (negative) or 1 (positive)
         return 1
 
+    def set_confirmation(self, file_id, value):
+        self.audios.loc[file_id, 'confirmation'] = int(value)
+        self.save_audios_csv()
+        return value
+
     def update_enrollment_status(self, email, status):
         self.users.loc[email, 'status'] = status
         self.save_users_csv()
         return status
 
-
     def predict_embedding(self, audio_data):
-
         #todo: predict embedding
 
         return []

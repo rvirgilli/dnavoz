@@ -2,7 +2,7 @@
 import flask
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
-from tasks import check_user, add_user, process_audio, update_status
+from tasks import check_user, add_user, process_audio, update_status, set_confirmation
 
 app = flask.Flask(__name__)
 CORS(app, origins=['http://localhost:63342', 'https://rvirgilli.github.io'])
@@ -45,18 +45,25 @@ def adduser():
 def upload_audio():
     email = request.form['user_email']
     content_type = request.form['content_type']
-    status = request.form['status']
-    enrollment = request.form['enrollment']
+    status = int(request.form['status'])
     audio_data = request.files['audio_data']
 
-    resp = process_audio(email, content_type, enrollment, audio_data)
-    update_status(email, status)
+    resp = process_audio(email, content_type, audio_data)
+
+    if status >= 0: #not a verification
+        update_status(email, status)
 
     j = jsonify(resp)
     return j
 
-def enrollment():
-    return True
+@app.route('/set_confirmation', methods=['POST'])
+@cross_origin()
+def confirmation():
+    file_id = request.form['file_id']
+    value = request.form['confirmation_value']
+    confirmation_bool = set_confirmation(file_id, value)
+    j = jsonify({'confirmation_bool': confirmation_bool})
+    return j
 
 if __name__ == "__main__":
     app.run()
