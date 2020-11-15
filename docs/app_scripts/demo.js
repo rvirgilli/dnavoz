@@ -2,6 +2,7 @@
 
 function init_demo(){
     //ajax for send email
+    console.log('init_demo');
     var sendEmailButton = document.getElementById("sendEmailButton");
     sendEmailButton.addEventListener("click", check_user);
 }

@@ -1,7 +1,7 @@
+from DNAdaVoz import DNAdaVoz
 import pandas as pd
 import pickle
 import numpy as np
-import hashlib
 import uuid
 import os
 
@@ -18,6 +18,7 @@ class ApiController:
         self.users_csv = users_csv
         self.audios_csv = audios_csv
         self.pickles_folder = './pickles'
+        self.dv = DNAdaVoz()
 
         if os.path.exists(users_csv):
             dtypes_users = {
@@ -86,8 +87,15 @@ class ApiController:
 
     def process_audio(self, email, content_type, audio_data):
         filename = uuid.uuid4().hex
-        audio_data.save(os.path.join(self.audios_folder, filename + '.wav'))
-        embeddings = self.predict_embedding(audio_data)
+        if audio_data.content_type == 'audio/ogg; codecs=opus':
+            ext = '.ogg'
+        elif audio_data.content_type == 'wav':
+            ext = '.wav'
+        else:
+            raise Exception('audio type not recognized')
+
+        audio_data.save(os.path.join(self.audios_folder, filename + ext))
+        embeddings = self.dv. predict_embeddings(os.path.join(self.audios_folder, filename + ext))
         with open(os.path.join(self.pickles_folder, filename + '.pickle'), "wb") as output_file:
             pickle.dump(embeddings, output_file)
 
@@ -130,8 +138,3 @@ class ApiController:
         self.users.loc[email, 'status'] = status
         self.save_users_csv()
         return status
-
-    def predict_embedding(self, audio_data):
-        #todo: predict embedding
-
-        return []

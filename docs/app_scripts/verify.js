@@ -4,7 +4,7 @@ var audio_ctx, user_email, red_id, owl;
 function init_verify(){
     user_email = getCookie('email');
 
-    console.log('init_verify')
+    console.log('init_verify');
     owl = $('.owl-carousel');
 
     //get user infos from cookie
@@ -80,7 +80,7 @@ function verification_success(resp){
         }, function(){
             console.log('set_confimation error');
         });
-    }
+    });
 
 }
 

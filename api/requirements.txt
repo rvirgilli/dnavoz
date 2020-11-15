@@ -3,3 +3,7 @@ flask_cors
 numpy
 pandas
 celery
+pydub
+scipy
+torch
+torchaudio

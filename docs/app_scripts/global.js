@@ -1,15 +1,25 @@
-var api_ctx = new API_Context(api_base_url)
+console.log('global');
+
+if (!api_ctx)
+    var api_ctx = new API_Context(api_base_url);
+
 //put init functions here
 function custom_inits() {
+
+    console.log('custom_inits');
+
     if($('#index')[0]){
+        console.log('fuck1');
         init_demo();
     }
 
     if($('#enroll')[0]){
+        console.log('fuck2');
         init_enroll();
     }
 
     if($('#verify')[0]){
+        console.log('fuck3');
         init_verify();
     }
 }
